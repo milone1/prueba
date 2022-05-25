@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import '../../styles/home.css'
 
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+
+import { Grid, Container } from '@mui/material';
 
 import { getMovies } from '../../service/firestore';
+import ButtonAppBar from '../../components/title';
+
 
 
 const Home = () => {
@@ -24,32 +27,27 @@ const Home = () => {
 
     return (
         <>
-            { movie.length >= 0 && 
-              movie.map((mov) => (
-                    <Card sx={{ maxWidth: 500 }}>
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="220"
-                            image={`${mov.photo}`}
-                            alt=""
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {mov.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {mov.description}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button size="small" color="primary">
-                            <a href={mov.url}>Ver</a>
-                        </Button>
-                    </CardActions>
-                </Card>
-              ))}
+        <ButtonAppBar />
+        <Container className="Container">
+            <Grid container spacing = {10}>
+                { movie.length >= 0 && 
+                  movie.map((mov) => (
+                      <Grid item md={4} lg={4} sm={12} xs={12}>
+                          <Card sx={{ width: 300 }} className="card">
+                                <CardMedia className="img-poster" component='img' image={`${mov.photo}`} />
+                                <CardContent>
+                                    <div className="header">
+                                        <h4 className="titulo">{mov.title}</h4>
+                                        <h2 className="rate">{mov.rate}</h2>
+                                    </div>
+                                    <p className="description">{mov.description}</p>
+                                    <a href={mov.url} className="button">Ver Aqui</a>
+                                </CardContent>
+                            </Card>
+                      </Grid>
+                  ))}
+            </Grid>
+        </Container>
         </>
     );  
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Grid, Card, CardContent, TextField } from "@mui/material";
 
+
 const Login = () => {
 
   const [userData, setUserData] = useState({
@@ -35,10 +36,9 @@ const Login = () => {
         <Card sx={{ width: 500 }}>
           <CardContent>
             <h5>Welcome to</h5>
-            <h3>Tecsup - Codigo</h3>
+            <h3>TUDUMOVIES.COM</h3>
             <p>
-              Bienvenido a la comunidad de CodiGo, juntos aprenderemos a
-              programas paginas web.
+              El acceso de esta pagina es solo para los administradores de tudumovies.com.
             </p>
             <Grid container spacing={3} mt={5}>
               <Grid item md={12}>
