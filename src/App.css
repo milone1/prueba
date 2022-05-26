@@ -1,3 +1,13 @@
 .App {
-    background-color: black;
+    background-color: #A6ACAF;
+    width: 100%;
+    min-height: 100vh;
+}
+
+Link {
+    text-decoration: none !important;
+}
+
+Button {
+    text-decoration: none !important;
 }

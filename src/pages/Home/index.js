@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import '../../styles/home.css'
 
 import * as React from 'react';
 import Card from '@mui/material/Card';

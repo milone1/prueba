@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, deleteDoc } from "firebase/firestore/lite";
+import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCEFgE5NeWLhcvEsUFBrmIb7j7Hyf6_nMs",
@@ -14,10 +15,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+//obtener
 export const getMovies = async () => {
     const collectionMovies = collection(db,"movies");
     const documentMovies = await getDocs(collectionMovies);
     const movies = documentMovies.docs.map((doc) => doc.data());
     return movies;
-}
-
+};
+//agregar
+export const addMovie = async (movie) => {
+  const id = uuidv4().replaceAll("-", "");
+  movie.id = id;
+  await setDoc(doc(db, "movies", id), movie);
+};
+//editar
+//export const updateProductClothe = async (product) => {
+//  const productRef = doc(db, "product_clothes", product.id);
+//
+//  await updateDoc(productRef, product);
+//};
+// eliminar 
+export const deleteMovie = async (id) => {
+  await deleteDoc(doc(db, "movies", id));
+};

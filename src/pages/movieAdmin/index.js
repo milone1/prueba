@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getMovies } from '../../service/firestore';
-import { Link } from "react-router-dom";
-import { Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Grid } from "@mui/material";
+import { getMovies, deleteMovie } from '../../service/firestore';
+import { Button, Container, Table, TableBody, TableCell, TableHead, TableRow, Grid, TableContainer, Paper } from "@mui/material";
+import swal from "sweetalert";
 
 
 const MovieCrud = () => {
-    
+
     const [movs, setMov] = useState([]);
 
     const fetchOtherMovies = async () => {
@@ -13,46 +13,76 @@ const MovieCrud = () => {
         setMov(data);
     }
 
+    const fetchDeleteMovie = async (id) => {
+    const response = await swal({
+            title: "¿Esta seguro de eliminar?",
+            text: "Recuerda que una vez eliminado no hay vuelta atras",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        });
+        if (response) {
+            await deleteMovie(id);
+            // despues de eliminar la pelicula debemos recargar la tabla
+            // despues de elimniar la pelicula vamos a llamar a fetchMovies
+            // para que basicamente actualice la tabla y muestro los datos actualizados
+            await fetchOtherMovies();
+          }
+    }
+
     useEffect(() => {
         fetchOtherMovies();
-      }, []);
+    }, []);
 
-    return(
+    return (
         <Container>
-        <Grid container spacing={3} mt={5}>
-            <Grid item md={6}>
-            <h4>Lista de Peliculas</h4>
+            <Grid container spacing={3} mt={0}>
+                <Grid item md={6}>
+                    <h1>LISTA DE PELICULAS: </h1>
+                </Grid>
+                <Grid item md={6} sx={{ textAlign: "right" }}>
+                    
+                </Grid>
             </Grid>
-            <Grid item md={6} sx={{ textAlign: "right" }}>
-            
-            </Grid>
-        </Grid>
-            <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>Titulo</TableCell>
-                    <TableCell align="right">ID </TableCell>
-                    <TableCell align="right">Descripcion</TableCell>
-                    <TableCell align="right">Calificacion</TableCell>
-                    <TableCell align="right">Photo</TableCell>
-                    <TableCell align="right">Video Link</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {movs.length > 0 &&
-                 movs.map((movie) => (
-                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell component="th" scope="row"> {movie.title}</TableCell>
-                    <TableCell align="right">{movie.movie_id}</TableCell>
-                    <TableCell align="right">{movie.description}</TableCell>
-                    <TableCell align="right">{movie.rate}</TableCell>
-                    <TableCell align="right">{movie.photo}</TableCell>
-                    <TableCell align="right">{movie.url}</TableCell>
-                  </TableRow>
-                 ))}
-            </TableBody>
-            </Table>
-        </Container> 
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Titulo</TableCell>
+                            <TableCell>Descripcion</TableCell>
+                            <TableCell>Calificacion</TableCell>
+                            <TableCell>Photo</TableCell>
+                            <TableCell>Video Link</TableCell>
+                            <TableCell>Botones</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {movs.length > 0 &&
+                            movs.map((movie) => (
+                                <TableRow>
+                                    <TableCell> {movie.title}</TableCell>
+                                    <TableCell>{movie.description}</TableCell>
+                                    <TableCell>{movie.rate}</TableCell>
+                                    <TableCell>
+                                        <a href={`${movie.photo}`}>
+                                            photo link
+                                        </a>
+                                    </TableCell>
+                                    <TableCell>
+                                        <a href={`${movie.url}`}>
+                                            video link
+                                        </a>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button>lapiz</Button>
+                                        <Button onClick={() => fetchDeleteMovie(movie.id)}>tacho</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Container>
     );
 }
 

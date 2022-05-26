@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
+import CreateMovie from "../pages/CreateProduct";
 import MovieCrud from "../pages/movieAdmin";
 
 const Router = () => {
@@ -10,7 +11,8 @@ const Router = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/crud" element={<MovieCrud/>} />
+            <Route path="/listar" element={<MovieCrud />} />
+            <Route path="/create" element={<CreateMovie />} />
         </Routes>
       </BrowserRouter>
     );

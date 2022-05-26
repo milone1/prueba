@@ -18,7 +18,7 @@ export default function ButtonAppBar() {
             TuduMovies.com
           </Typography>
           <Link to="/login">
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" variant="outlined">Login</Button>
           </Link>
         </Toolbar>
       </AppBar>
